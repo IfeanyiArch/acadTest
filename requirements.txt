@@ -1,0 +1,25 @@
+# Django and DRF
+Django>=4.2,<5.0
+djangorestframework>=3.14.0
+django-filter>=23.2
+
+# Authentication
+djangorestframework-simplejwt>=5.2.2
+
+# Machine Learning for grading
+scikit-learn>=1.3.0
+numpy>=1.24.0
+
+# Testing
+factory-boy>=3.3.0
+faker>=19.0.0
+
+# API Documentation
+drf-yasg>=1.21.7
+
+# Database
+psycopg2-binary>=2.9.7  # For PostgreSQL
+
+# Utilities
+python-decouple>=3.8 
+pytz>=2023.3
