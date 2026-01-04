@@ -24,7 +24,9 @@ class BaseGradingService(ABC):
 
 
 class MockGradingService(BaseGradingService):
-    """Mock grading service using keyword matching and text similarity"""
+    """
+    Mock grading service using keyword matching and text similarity
+    """
 
     def __init__(self):
         self.vectorizer = TfidfVectorizer(stop_words="english")
@@ -78,7 +80,7 @@ class MockGradingService(BaseGradingService):
         # Weighted combination (60% keywords, 40% similarity)
         combined_score = (0.6 * keyword_score) + (0.4 * similarity_score)
 
-        # Calculate final score
+        # Calculate final score - convert question.marks to float
         final_score = float(question.marks) * combined_score
 
         # Determine if correct (threshold: 70%)
@@ -119,6 +121,7 @@ class MockGradingService(BaseGradingService):
             (0.3 * length_score) + (0.3 * keyword_score) + (0.4 * similarity_score)
         )
 
+        # Calculate final score - convert question.marks to float
         final_score = float(question.marks) * combined_score
         is_correct = combined_score >= 0.6
 

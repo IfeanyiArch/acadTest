@@ -36,7 +36,6 @@ class SubmissionViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         """
         Only return submissions for the authenticated user
-        Optimize queries with select_related and prefetch_related
         """
         user = self.request.user
 
@@ -99,7 +98,6 @@ class SubmissionViewSet(viewsets.ModelViewSet):
             )
             answers.append(answer)
 
-        # Initiate grading
         try:
             self._grade_submission(submission, answers)
         except Exception as e:
@@ -115,27 +113,28 @@ class SubmissionViewSet(viewsets.ModelViewSet):
 
     def _grade_submission(self, submission, answers):
         """Grade submission using grading service"""
+
+        from decimal import Decimal
+
         submission.status = "GRADING"
         submission.save()
 
         grading_service = get_grading_service("mock")
 
-        total_score = 0.0
-
+        total_score = Decimal("0.00")
         for answer in answers:
-            # Grade each answer
             grading_result = grading_service.grade_answer(
                 answer.question, answer.answer_text
             )
 
             # Update answer with grading results
-            answer.score = grading_result["score"]
+            answer.score = Decimal(str(grading_result["score"]))
             answer.feedback = grading_result["feedback"]
             answer.is_correct = grading_result["is_correct"]
             answer.grading_metadata = grading_result["metadata"]
             answer.save()
 
-            total_score += grading_result["score"]
+            total_score += answer.score
 
         # Update submission with final score
         submission.total_score = total_score

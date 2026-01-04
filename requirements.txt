@@ -23,3 +23,4 @@ psycopg2-binary>=2.9.7  # For PostgreSQL
 # Utilities
 python-decouple>=3.8 
 pytz>=2023.3
+pytest-django

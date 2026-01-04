@@ -6,9 +6,13 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": ":memory:",
+        "TEST": {
+            "NAME": ":memory:",
+        },
     }
 }
 
+#
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',

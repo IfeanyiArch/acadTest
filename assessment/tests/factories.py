@@ -5,7 +5,7 @@ from django.utils import timezone
 from datetime import timedelta
 from decimal import Decimal
 
-from .models import Course, Exam, Question, Submission, Answer
+from assessment.models import Course, Exam, Question, Submission, Answer
 
 
 class UserFactory(DjangoModelFactory):

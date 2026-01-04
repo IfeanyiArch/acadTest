@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.authtoken.models import Token
 from decimal import Decimal
 
-from .models import Submission, Answer
+from assessment.models import Submission, Answer
 from .factories import (
     UserFactory,
     ActiveExamFactory,
@@ -28,7 +28,7 @@ class AuthenticationTest(TestCase):
 
     def test_get_auth_token(self):
         """Test obtaining authentication token"""
-        url = reverse("api_token_auth")
+        url = reverse("login")
         data = {"username": "testuser", "password": "testpass123"}
 
         response = self.client.post(url, data)
@@ -38,7 +38,7 @@ class AuthenticationTest(TestCase):
 
     def test_invalid_credentials(self):
         """Test authentication with invalid credentials"""
-        url = reverse("api_token_auth")
+        url = reverse("login")
         data = {"username": "testuser", "password": "wrongpassword"}
 
         response = self.client.post(url, data)

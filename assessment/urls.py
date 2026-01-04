@@ -10,5 +10,5 @@ router.register(r"exams", ExamViewSet, basename="exam")
 router.register(r"submissions", SubmissionViewSet, basename="submission")
 
 urlpatterns = [
-    path("v1", include(router.urls)),
+    path("v1/", include(router.urls)),
 ]
