@@ -1,3 +1,9 @@
 venv/
 .ropeproject/
 __pycache__/
+
+.env 
+.env.production
+.env.test
+
+db.sqlite3
