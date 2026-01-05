@@ -22,7 +22,7 @@ services:
       context: .
       dockerfile: docker/Dockerfile.test
     container_name: acad-service-api-test
-    command: sh -c "python -m pytest"
+    command: sh -c "while ! pg_isready -h acad_db_test -p 5432; do sleep 1; done; python manage.py dbshell -c 'CREATE DATABASE acad_dev;' && python manage.py migrate && python -m pytest"
     depends_on:
       - acad_db_test
       - acad_cache_test

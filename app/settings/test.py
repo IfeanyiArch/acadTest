@@ -32,8 +32,7 @@ class DisableMigrations:
         return None
 
 
-# Uncomment to disable migrations during tests (faster)
-MIGRATION_MODULES = {"authentication": None, "assessment": None}
+MIGRATION_MODULES = {"authentication": None, "assessment": None, "auth": None}
 
 PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.MD5PasswordHasher",
