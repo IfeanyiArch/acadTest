@@ -4,25 +4,17 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0", "*"]
 
-# Database - Use SQLite for quick local development
+
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": config("DB_NAME", default="acadai_dev"),
+        "USER": config("DB_USER", default="acadai_user"),
+        "PASSWORD": config("DB_PASSWORD", default="devpassword"),
+        "HOST": config("DB_HOST", default="localhost"),
+        "PORT": config("DB_PORT", default="5432"),
     }
 }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': config('DB_NAME', default='acadai_dev'),
-#         'USER': config('DB_USER', default='acadai_user'),
-#         'PASSWORD': config('DB_PASSWORD', default='devpassword'),
-#         'HOST': config('DB_HOST', default='localhost'),
-#         'PORT': config('DB_PORT', default='5432'),
-#     }
-# }
-#
 
 
 SECURE_SSL_REDIRECT = False

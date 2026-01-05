@@ -1,0 +1,43 @@
+services:
+  acad_db:
+    image: postgres:14-alpine
+    container_name: acad-service-database-dev
+    restart: always
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - acad_db:/var/lib/postgresql/data
+
+  acad_cache:
+    image: redis:6
+    container_name: acad-service-cache-dev
+    restart: always
+    volumes:
+      - cache:/data
+    ports:
+      - "6379:6379"
+
+  acad:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: acad-service-api-dev
+    command: sh -c "sleep 5 && python manage.py makemigrations && python manage.py migrate && sleep 5 && python manage.py runserver 0.0.0.0:${APP_PORT}"
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    volumes:
+      - .:/app
+    depends_on:
+      - acad_db
+      - acad_cache
+    restart: always
+
+volumes:
+  acad_db:
+    driver: local
+  cache:
+    driver: local

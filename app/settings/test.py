@@ -2,27 +2,26 @@ from .base import *
 
 DEBUG = False
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": ":memory:",
-        "TEST": {
-            "NAME": ":memory:",
-        },
-    }
-}
-
-#
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'test_acadai_db',
-#         'USER': 'test_user',
-#         'PASSWORD': 'test_password',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": ":memory:",
+#         "TEST": {
+#             "NAME": ":memory:",
+#         },
 #     }
 # }
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": config("DB_NAME", default="acad_test"),
+        "USER": config("DB_USER", default="user"),
+        "PASSWORD": config("DB_PASSWORD", default="devpassword"),
+        "HOST": "acad_db_test",
+        "PORT": config("DB_PORT", default="5432"),
+    }
+}
 
 
 class DisableMigrations:
@@ -34,7 +33,7 @@ class DisableMigrations:
 
 
 # Uncomment to disable migrations during tests (faster)
-# MIGRATION_MODULES = DisableMigrations()
+MIGRATION_MODULES = {"authentication": None, "assessment": None}
 
 PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.MD5PasswordHasher",

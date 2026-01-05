@@ -1,0 +1,28 @@
+services:
+  acad_db_test:
+    image: postgres:14-alpine
+    container_name: acad-service-database-test
+    restart: always
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - "${DB_PORT}:5432"
+
+  acad_cache_test:
+    image: redis:6
+    container_name: acad-service-cache-test
+    restart: always
+    ports:
+      - "6379:6379"
+
+  acad_test:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.test
+    container_name: acad-service-api-test
+    command: sh -c "python -m pytest"
+    depends_on:
+      - acad_db_test
+      - acad_cache_test

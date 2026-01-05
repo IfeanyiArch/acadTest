@@ -22,21 +22,8 @@ class RegisterView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
-        # Debug: Print user info
-        print(f"Created user: {user}")
-        print(f"User type: {type(user)}")
-        print(f"User pk: {user.pk}")
 
-        # Generate token for the user instance
-        try:
-            token, created = Token.objects.get_or_create(user=user)
-            print(f"Token created: {token.key}")
-        except Exception as e:
-            print(f"Token creation error: {e}")
-            return Response(
-                {"error": f"Failed to create token: {str(e)}"},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            )
+        token, created = Token.objects.get_or_create(user=user)
         user_serializer = UserSerializer(user)
         return Response(
             {
@@ -70,8 +57,6 @@ class LoginView(APIView):
 
         token, created = Token.objects.get_or_create(user=user)
 
-        # login(request, user)
-
         user_serializer = UserSerializer(user)
 
         return Response(
@@ -100,9 +85,6 @@ class LogoutView(APIView):
         try:
             # Delete the user's token
             request.user.auth_token.delete()
-
-            # logout(request)
-
             return Response({"message": "Logout successful"}, status=status.HTTP_200_OK)
 
         except Exception:

@@ -1,0 +1,29 @@
+services:
+  acad_cache:
+    image: redis:6
+    restart: always
+    volumes:
+      - nucord_cache:/data
+    ports:
+      - "6379:6379"
+
+  acad:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.prod
+    container_name: acad-api-prod
+    image: acad-api-prod
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    depends_on:
+      - nucord_cache
+    restart: always
+
+    env_file:
+      - .env
+
+volumes:
+  acad_cache:
+    driver: local
+  static_volume:
+    driver: local
